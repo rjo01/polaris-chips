@@ -13,6 +13,7 @@ export class MyCard extends LitElement {
 
   constructor() {
     super();
+    this.fancy = false;
     this.title = "My card";
     this.image = "My image";
     this.bodyText = "My text";
@@ -22,9 +23,13 @@ export class MyCard extends LitElement {
 
   static get styles() {
     return css`
-      :host {
-        display: inline-flex;
-      }
+      :host([fancy]) {
+        display: inline-block;
+        background-color: pink;
+        max-width: 400px; 
+        border: 2px solid fuchsia;
+        box-shadow: 10px 5px 5px red;
+}
       :root, html, body {
           font-size: 16px; 
           --basic-color: #ff9700;
@@ -33,7 +38,8 @@ export class MyCard extends LitElement {
   values will be multiplied by */
       }
   .card {  
-    max-width:400px;
+    
+    width: 200px;
     border: 2px solid var(--border-color, #E6AD00);;
     border-radius: 8px;
     margin: 16px;
@@ -41,7 +47,8 @@ export class MyCard extends LitElement {
     background-color: beige;
   }
 #cardlist {
-  display: flex;
+  display: inline-block;
+  
 }
 body div div.card.change-color{
   background-color: var(--basic-color);
@@ -90,8 +97,24 @@ body div div.card.change-color{
     }
   } 
 }
+  details div {
+    border: 2px solid black;
+    padding: 8px;
+    height: 70px;
+    overflow: auto;
+  }
 
     `;
+  }
+  // put this anywhere on the MyCard class; just above render() is probably good
+  openChanged(e) {
+    console.log(e.newState);
+    if (e.newState === "open") {
+      this.fancy = true;
+    }
+    else {
+      this.fancy = false;
+    }
   }
 
   render() {
@@ -100,18 +123,24 @@ body div div.card.change-color{
       <img src="${this.image}" alt="${this.title}" class="card-image">
       <div class="card-content">
         <h2 class="card-title">${this.cardtitle}</h2>
-        <p class="card-text">${this.bodyText}</p>
         <a href="${this.link}"><button style="--button-color: ${this.buttonColor};">Details</button></a>
       </div>
+      <details ?open="${this.fancy}" @toggle="${this.openChanged}">
+        <summary>Description</summary>
+        <div>
+          <slot>${this.description}</slot>
+            </div>
+        </details>
     </section>
   </div>`;
   }
 
   static get properties() {
     return {
+      fancy: { type: Boolean, reflect: true },
       cardtitle: { type: String },
       image: { type: String },
-      bodyText: { type: String },
+      description: { type: String },
       link: { type: String },
       borderColor: { type: String },
     };
