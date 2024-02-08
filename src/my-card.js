@@ -23,20 +23,22 @@ export class MyCard extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
+        display: inline-flex;
       }
       :root, html, body {
-  font-size: 16px; 
-  --basic-color: #ff9700;
+          font-size: 16px; 
+          --basic-color: #ff9700;
   /* think of this as a
   base font size that all 'em' 
   values will be multiplied by */
-}
+      }
   .card {  
-    width:400px;
-    margin:12px 12px 12px 12px;
-    padding:16px 16px 16px 16px;
-    background-color: yellow;
+    max-width:400px;
+    border: 2px solid var(--border-color, #E6AD00);;
+    border-radius: 8px;
+    margin: 16px;
+    padding: 12px;
+    background-color: beige;
   }
 #cardlist {
   display: flex;
@@ -46,22 +48,25 @@ body div div.card.change-color{
 }
 
 .card-title {
+  font-family: "Times New Roman", serif;
   color: black;
   text-align: center;
 }
 
-p {
+.card-text {
+  font-family: "Times New Roman", serif;
   font-size: 20px;
   text-align: center;
 }
 .card-image {
-  height: 250px;
-  width: 400px;
+  height: 200px;
+  width: 100%;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-  .btn {
+
+  .card-btn {
   background-color: red;
   color: white;
   font-size: 20px;
@@ -69,6 +74,7 @@ p {
   padding: 16px 16px 16px 16px;
   margin: 4px 4px 4px 32px;
   }
+  
   .btn:focus,
   .btn:hover {
   background-color: orange;
@@ -89,12 +95,27 @@ p {
   }
 
   render() {
-    return html`<div>${this.title}</div>`;
+    return html` <div id="cardlist" class="card-list">
+    <section class="card" style="--border-color: ${this.borderColor};">
+      <img src="${this.image}" alt="${this.title}" class="card-image">
+      <div class="card-content">
+        <h2 class="card-title">${this.cardtitle}</h2>
+        <p class="card-text">${this.bodyText}</p>
+        <a href="${this.link}"><button style="--button-color: ${this.buttonColor};">Details</button></a>
+      </div>
+    </section>
+  </div>`;
   }
 
   static get properties() {
     return {
-      title: { type: String },
+      cardtitle: { type: String },
+      image: { type: String },
+      bodyText: { type: String },
+      link: { type: String },
+      borderColor: { type: String },
     };
   }
 }
+
+globalThis.customElements.define(MyCard.tag, MyCard);
