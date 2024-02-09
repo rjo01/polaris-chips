@@ -27,7 +27,7 @@ export class MyCard extends LitElement {
         display: inline-block;
         background-color: pink;
         max-width: 400px; 
-        border: 2px solid fuchsia;
+        border: 2px solid burlywood;
         box-shadow: 10px 5px 5px red;
 }
       :root, html, body {
@@ -55,13 +55,13 @@ body div div.card.change-color{
 }
 
 .card-title {
-  font-family: "Times New Roman", serif;
+  font-family: "Snell Roundhand", cursive;
   color: black;
   text-align: center;
 }
 
 .card-text {
-  font-family: "Times New Roman", serif;
+  font-family: "Snell Roundhand", cursive;
   font-size: 20px;
   text-align: center;
 }
