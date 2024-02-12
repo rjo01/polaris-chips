@@ -35,88 +35,69 @@
 
   <h1>Controls</h1>
   <div class="control-wrapper">
-    <button class="duplicate">Clone Card</button>
+    <button id="duplicate">Clone Card</button>
     <button id="changetitle">Change Title</button>
     <button id="changeimage">Change Image</button>
     <button id="changebg">Change Background</button>
     <button id="delete">Delete Card</button>
-  <div id="cardlist">
+  
   
   
 
   <!-- this is what is bringing in the definition for this tag -->
   <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
-
+  
+  <div id="cardlist">
   <my-card fancy cardtitle="French Fries" image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuQEiqVAes7Q8cORM8HJf8mS9-2EqC26NxGQ&usqp=CAU" description="A beloved side to any meal" link="https://hax.psu.edu" borderColor="yellow"></my-card>
   <my-card cardtitle="Hamburger" image="https://theeburgerdude.com/wp-content/uploads/2024/01/Double-Double-Blog-1-scaled.jpg" description="A staple in American cuisine" link="https://hax.psu.edu" borderColor="brown"></my-card>
   <my-card cardtitle="Pizza" image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfyZQ2cvWXwvi4SnERij8aqHq9vQ66M8DAkw&usqp=CAU" description="Italian dish turned global favorite" link="https://hax.psu.edu" borderColor="red"></my-card>
   <my-card cardtitle="Tacos" image="https://www.allrecipes.com/thmb/vG-of0Xa0W0eodSXPWV1KXD009U=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/70935-taqueria-style-tacos-mfs-3x2-35-9145991a0ef94ceb8be05ae8d6be4f0f.jpg" description="Mexican originated, American adapted" link="https://hax.psu.edu" borderColor="green"></my-card>
+  </div>
+
   <script>
-    document.querySelector('#duplicate').addEventListener('click', function(event) {
-      const cards = document.querySelectorAll('my-card');
-      if (cards.length > 0 && cards.length < 10) {
-        const lastCard = cards[cards.length - 1];
-        const newCard = lastCard.cloneNode(true);
-        document.querySelector('#cardlist').appendChild(newCard);
-      }
-    });
     
-    document.querySelector('#changetext').addEventListener('click', function(e) {
-      // Selecting the first 'my-card' element
-      const myCard = document.querySelector('my-card');
+    document.querySelector('.duplicate').addEventListener('click', function(event) {
+  if (document.querySelectorAll('.card').length < 10 ) {
+    const newCard = document.querySelector('#cardlist .card').cloneNode(true);
+  // Q1: this is currently appending to the body;
+  // how can we append so that it's placed right next to the other card?
+ document.querySelector('#cardlist').appendChild(newCard);
+}
+});
 
-      // Accessing shadow DOM
-      const shadowRoot = myCard.shadowRoot;
+// Q2: How would we change the title of the card?
+document.querySelector('#changetitle').addEventListener('click', function(e) {
+  document.querySelector('.card-title').innerHTML = "Huge Jerk";
+})
 
-      // Selecting elements inside shadow DOM
-      const cardTitle = shadowRoot.querySelector('.card-title');
-      const cardDescription = shadowRoot.querySelector('.card-description');
+// Q3: How would we change the image of the card on click to https://github.com/elmsln.png
+document.querySelector('#changeimage').addEventListener('click', function(e) {
+  document.querySelector('.card-image').src = "https://github.com/elmsln.png";
+})
 
-      // Replacing elements
-      cardTitle.textContent = "COOKIE MONSTER";
-      cardDescription.textContent = "ME LOVE COOKIE";
-    });
-    
-    document.querySelector('changeimage').addEventListener('click', function(e) {
-      // Selecting the first 'my-card' element
-      const myCard = document.querySelector('my-card');
+// Q4: How would we hook up the button to change the background via a css class?
+document.querySelector('#changebg').addEventListener('click', function(e) {
+  document.querySelector('.card').classList.add('change-color');
+})
+// Q5: How would we delete the last card?
+document.querySelector('#delete').addEventListener('click', function(e) {
+  console.log(document.querySelectorAll('.card').length);
+  if (document.querySelectorAll('.card').length !== 1) {
+  document.querySelector('.card').remove();
+  }
+})
+/* Additional logic to add:
+  - Ensure that when we DELETE cards, that we never delete 
+    our 1st one or we can't use the 'app'
+  - Ensure that when we ADD cards that we never add more than 10
+  - Ensure that when we change the background class that we are 
+    able to toggle the classes to be the opposite of what they 
+    are (so eithere the class is there and visually applied, 
+    or its not, and toggles for all elements)
+*/
 
-      // Accessing shadow DOM
-      const shadowRoot = myCard.shadowRoot;
 
-      // Selecting element inside shadow DOM
-      const cardImage = shadowRoot.querySelector('.card-image');
-
-      // Replacing element
-      cardImage.setAttribute('src', 'https://hips.hearstapps.com/hmg-prod/images/sesame-street-muppet-cookie-monster-poses-for-photographs-news-photo-1701191526.jpg?crop=0.673xw:1.00xh;0.213xw,0&resize=1200:*');
-    });
-    
-    document.querySelector('#changebg').addEventListener('click', function (e) {
-      // Selecting all 'my-card' elements
-      const myCards = document.querySelectorAll('my-card');
-
-      
-      myCards.forEach(myCard => {
-        // Accessing shadow DOM
-        const shadowRoot = myCard.shadowRoot;
-        // Selecting all '.card' elements inside shadow DOM
-        const cards = shadowRoot.querySelectorAll('.card');
-
-        cards.forEach(card => {
-          card.classList.toggle('change-color');
-        });
-      });
-    });
-
-    document.querySelector('#delete').addEventListener('click', function(e) {
-      const cards = document.querySelectorAll('my-card');
-      const lastCard = cards[cards.length - 1];
-    
-      if (cards.length !== 1) {
-        lastCard.remove();
-      }
-    });
   </script>
 </body>
 
