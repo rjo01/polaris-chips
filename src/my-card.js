@@ -1,9 +1,6 @@
 import { LitElement, html, css } from 'lit';
+import "@lrnwebcomponents/meme-maker/meme-maker.js";
 
-/**
- * Now it's your turn. Here's what we need to try and do
- * 1. 
- */
 
 export class MyCard extends LitElement {
 
@@ -19,6 +16,8 @@ export class MyCard extends LitElement {
     this.bodyText = "My text";
     this.borderColor = "My border-color";
     this.buttonColor = "My button-color";
+    this.top = "My top";
+    this.bottom = "My bottom";
   }
 
   static get styles() {
@@ -50,8 +49,8 @@ export class MyCard extends LitElement {
   display: inline-block;
   
 }
-body div div.card.change-color{
-  background-color: var(--basic-color);
+.change-color{
+  background-color: orange
 }
 
 .card-title {
@@ -118,9 +117,11 @@ body div div.card.change-color{
   }
 
   render() {
-    return html` <div id="cardlist" class="card-list">
+    return html` 
+    <div class="cardlist">
     <section class="card" style="--border-color: ${this.borderColor};">
-      <img src="${this.image}" alt="${this.title}" class="card-image">
+      <<meme-maker alt="Cat stalking a small toy" image-url="${this.image}" top-text="I bring you" bottom-text="the death">
+        </meme-maker>">
       <div class="card-content">
         <h2 class="card-title">${this.cardtitle}</h2>
         <a href="${this.link}"><button style="--button-color: ${this.buttonColor};">Details</button></a>
@@ -143,6 +144,8 @@ body div div.card.change-color{
       description: { type: String },
       link: { type: String },
       borderColor: { type: String },
+      bottom: {type: String},
+      top: {type: String},
     };
   }
 }
