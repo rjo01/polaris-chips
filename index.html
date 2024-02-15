@@ -38,7 +38,7 @@
     <button class="duplicate">Clone Card</button>
     <button class="changetitle">Change Title</button>
     <button class="changeimage">Change Image</button>
-    <button id="changebg">Change Background</button>
+    <button class="changebg">Change Background</button>
     <button class="delete">Delete Card</button>
   </div>
   
@@ -71,15 +71,17 @@
     }
 });
 
-document.querySelector('#changetitle').addEventListener('click', function(e) {
-  document.querySelector('.card-title').innerHTML = "Huge Jerk";
+document.querySelector('.changetitle').addEventListener('click', function(e) {
+  const card  = document.querySelector('my-card')
+  card.cardtitle = "code"
 })
 
-document.querySelector('#changeimage').addEventListener('click', function(e) {
-  document.querySelector('.card-image').src = "https://github.com/elmsln.png";
+document.querySelector('.changeimage').addEventListener('click', function(e) {
+  const card = document.querySelector('my-card')
+  card.image = "https://github.com/elmsln.png"
 })
 
-document.querySelector('#changebg').addEventListener('click', function(e) {
+document.querySelector('.changebg').addEventListener('click', function(e) {
   console.log('clicked')
   const card = document.querySelectorAll('my-card')
 
@@ -91,16 +93,22 @@ document.querySelector('#changebg').addEventListener('click', function(e) {
     newcard.forEach(card => {
       card.classList.toggle('change-color')
     })
-
   })
   
-})
-document.querySelector('#delete').addEventListener('click', function(e) {
-  console.log(document.querySelectorAll('.card').length);
-  if (document.querySelectorAll('.card').length !== 1) {
-  document.querySelector('.card').remove();
+});
+document.querySelector('.delete').addEventListener('click', function(e) {
+  const card = document.querySelector('#cardlist')
+  if(card.children.length >1){
+    card.lastElementChild.remove()
+
+    //0 1 2 
+    //A B C = 3 
+
+    //array[array.length - 1]
+
   }
-})
+
+  })
 
   </script>
 </body>
