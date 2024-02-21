@@ -120,8 +120,8 @@ export class MyCard extends LitElement {
     return html` 
     <div class="cardlist">
     <section class="card" style="--border-color: ${this.borderColor};">
-      <<meme-maker alt="Cat stalking a small toy" image-url="${this.image}" top-text="I bring you" bottom-text="the death">
-        </meme-maker>">
+      <meme-maker alt="Cat stalking a small toy" image-url="${this.image}" top-text="I bring you" bottom-text="the food">
+        </meme-maker>
       <div class="card-content">
         <h2 class="card-title">${this.cardtitle}</h2>
         <a href="${this.link}"><button style="--button-color: ${this.buttonColor};">Details</button></a>
