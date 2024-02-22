@@ -69,10 +69,7 @@ export class CounterApp extends LitElement {
     if (this.counter == this.min || this.counter == this.max) {
     this.style.color = 'red';
     }
-    else {
-    this.style.color = 'black';
-    }
-    if (this.counter == 18 || this.counter == 21) {
+    else if (this.counter == 18 || this.counter == 21) {
     this.style.color = 'green';
     }
     else {
