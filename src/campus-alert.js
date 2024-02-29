@@ -9,19 +9,30 @@ export class CampusAlert extends LitElement {
 
   static get properties() {
     return {
-       alertType: { type: Boolean},
+       alertType: { type: String},
+       sticky: { type: Boolean, reflect: true},
+       opened: {type: Boolean, reflect: true},
+       alertMessage: {type: String},
+       date: {type: String},
     };
   }
 
   constructor() {
     super();
-    this.alertType = true;
-    
+    this.alertType = "";
+    this.opened = true;
+    this.sticky = false;
+    this.alertMessage = " ";
+    this.date = " ";
   }
   
 
   static get styles() {
     return css`
+    :host([sticky]){
+      position: sticky;
+      top: 0;
+    }
   
   .alert-wrapper {
     background-color: #ff471a;
@@ -31,9 +42,12 @@ export class CampusAlert extends LitElement {
     background-color:#ff704d;
     font-size:20px;
     font-weight:bold;
+    padding:1px;
   }
   .message-wrapper{
     text-align: center;
+    margin:0px;
+    padding:5px;
   }
   .alert-image{
     height:50px;
@@ -47,44 +61,30 @@ export class CampusAlert extends LitElement {
     
     `;
   }
-openChanged(e) {
-    console.log(e.newState);
-    if (e.newState === "open") {
-      this.fancy = true;
-    }
-    else {
-      this.fancy = false;
-    }
-  }  
-closeAlert() {
-  if (this.alertType == true)
-  {
-    alert.styles.display = 'none';
-  }
-}
-
-  render() {
-    return html`
-    <div class ="alert-wrapper"> 
+openedAlert(color){
+  return html`  
+ <div class ="alert-wrapper" ?sticky="${this.sticky}"> 
         <div class ="date-wrapper">
-            <p class = "date" >2-22-2024 7:00 AM</p>
-            <!-- <p class = "time"></p> -->
+            <p class = "date" >${this.date}</p>
         </div>
-        <button class = "close-alert" ?open="${this.alertType}" @toggle="${this.openChanged}">
-        <summary>CLOSE</summary>
-          <div>
-            <slot>${this.description}</slot>
-            </div>
-        </button>
-        <img class = "alert-image" src= "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.hiclipart.com%2Ffree-transparent-background-png-clipart-ddryp&psig=AOvVaw2ck-XpvgG_ZUrsIkX975T-&ust=1709087226677000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNCCgpq8yoQDFQAAAAAdAAAAABAP">
+        <button class = "close-alert" ?open="${this.opened}" @toggle="${this.openChanged}">CLOSE</button>
     <div class = "message-wrapper">
-          <p class = "alert-message">This is a very important message with a super important alert!</p>
+          <p class = "alert-message">${this.alertMessage}</p>
       </div>
-    </div>`;
+    </div>
+  `;}
+  
+closedAlert(){
+
+}  
+
+  render() { 
+    if (this.alertType = "notice") color = "blue";
+
+    return (this.opened) ? this.openedAlert() : this.closedAlert();
+  
     }
 
-  
-}
-
+  }
 globalThis.customElements.define(CampusAlert.tag, CampusAlert);
 
