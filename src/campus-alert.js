@@ -35,14 +35,14 @@ export class CampusAlert extends LitElement {
     }
   
   .alert-wrapper {
-    background-color: #ff471a;
-    border-color: yellow;
+    background-color: #efecef
   }
   .date-wrapper{
-    background-color:#ff704d;
+    background-color:#e5acf1;
     font-size:20px;
     font-weight:bold;
     padding:1px;
+    height:50px;
   }
   .message-wrapper{
     text-align: center;
@@ -58,6 +58,9 @@ export class CampusAlert extends LitElement {
     top:0;
     right:0;
   }
+  .alert-message{
+    color:white;
+  }
     
     `;
   }
@@ -65,23 +68,38 @@ openedAlert(color){
   return html`  
  <div class ="alert-wrapper" ?sticky="${this.sticky}"> 
         <div class ="date-wrapper">
-            <p class = "date" >${this.date}</p>
+            <div class = "date" >${this.date}</div>
         </div>
-        <button class = "close-alert" ?open="${this.opened}" @toggle="${this.openChanged}">CLOSE</button>
+        <!-- <button class = "close-alert" ?open="${this.opened}" @toggle="${this.openChanged}">CLOSE</button> -->
     <div class = "message-wrapper">
-          <p class = "alert-message">${this.alertMessage}</p>
+          <div class="campus-alert" style="background-color:${color}">
+          <div class="message"><svg xmlns="http://www.w3.org/2000/svg" style="height: 50px; width: 50px; align-items: center;" viewBox="0 0 24 24"><title>alert-symbol</title><path d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" /></svg>
+          ${this.alertMessage}
+          </div>
       </div>
     </div>
+    <button @click="${this.toggleAlert}">CLOSE</button>
+</div>  
   `;}
   
 closedAlert(){
-
-}  
+  return html`
+<div class = "closed" ?sticky="${this.sticky}">
+  <div class ="closed-toggle-button" @click="${this.toggleAlert}">
+  </div>
+</div> 
+`;}
 
   render() { 
-    if (this.alertType = "notice") color = "blue";
+    let color = "grey";
+    if (this.alertType === "notice") color = "blue";
+    if (this.alertType === "warning") color = "yellow";
+    if (this.alertType === "alert") color = "red";
 
-    return (this.opened) ? this.openedAlert() : this.closedAlert();
+    if (this.alertType === "notice") (this.alertMessage) = "This is not that important";
+    if (this.alertType === "warning") (this.alertMessage) = "This is kind of important";
+    if (this.alertType === "alert") (this.alertMessage) = "THIS IS VERY IMPORTANT";
+    return (this.alertType) ? this.openedAlert(color) : this.closedAlert();
   
     }
 
