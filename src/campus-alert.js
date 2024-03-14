@@ -37,6 +37,8 @@ export class CampusAlert extends LitElement {
   
   .alert-wrapper {
     background-color:#888888;
+    /* webkit-transform: skew(20deg); */
+    transform: skew(20deg);
   }
   .date-wrapper{
     background-color: #efecef;
@@ -71,6 +73,7 @@ export class CampusAlert extends LitElement {
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
     text-align:center;
+    transform: skew(-20deg)
   }
   .closed {
     display: flex;
