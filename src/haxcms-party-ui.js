@@ -63,7 +63,7 @@ export class PartyUI extends DDD {
   }
 
   addItem() {
-    const randomNumber = globalThis.crypto.getRandomValues(new Uint32Array(1))[0];
+    const randomNumber = Math.floor(Math.random() * 10000000)+ 1;
     const character = {
       hat: "random", 
       seed: this.generateSeed(this.characterName),
