@@ -17,25 +17,25 @@ export class PartyUI extends DDD {
     :host {
      display: block
     }
-
-    my-item  {
-      display: block;
-      background-color: orange;
-      padding: 16px;
-    }
     .add {
-      background-color: lightgreen;
+      font-family: "Press Start 2P", sans-serif;
+      background-color: var(--ddd-theme-default-futureLime);
       padding: 10px;
     }
     .delete {
-      background-color: lightcoral;
+      font-family: "Press Start 2P", sans-serif;
+      background-color: var(--ddd-theme-default-discoveryCoral);
       padding: 10px;
+    }
+    .save {
+      font-family: "Press Start 2P", sans-serif;
+      background-color: var(--ddd-theme-default-athertonViolet);
     }
     .change-character {
       padding: 10px;
     }
     .container {
-      background-color: lightblue;
+      background-color: var(--ddd-theme-default-link80);
       margin: 30px;
     }
     .character-container {
@@ -52,7 +52,8 @@ export class PartyUI extends DDD {
       align-items: center;
     }
     .character-name {
-      margin-top: 8px;
+      font-family: "Press Start 2P", sans-serif;
+      
     }
   `;
 
@@ -80,6 +81,18 @@ export class PartyUI extends DDD {
       this.requestUpdate();
     }
   }
+  makeItRain() {
+    import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
+      (module) => {
+        setTimeout(() => {
+          this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+        }, 0);
+      }
+    );
+  }
+  saveItem() {
+    this.makeItRain();
+  }
 
   generateSeed(name) {
     return name; 
@@ -92,6 +105,7 @@ export class PartyUI extends DDD {
   render() {
     return html`
     <div class = "container">
+    <confetti-container id="confetti">
      <div class = "character-container">
      <rpg-character hat="random" seed="random"></rpg-character>
         ${this.items.map((character) => html`
@@ -105,8 +119,11 @@ export class PartyUI extends DDD {
       <input type="text" @input="${this.nameChange}" placeholder="Enter name">
       <button class="add" @click="${this.addItem}">Add User</button>
       <button class="delete" @click="${this.deleteItem}">Delete User</button>
+      <button class="save" @click="${this.saveItem}">Save Members to Party!</button>
      </div>
+     </confetti-container>
   </div>
+  
     `;
   }
 }
