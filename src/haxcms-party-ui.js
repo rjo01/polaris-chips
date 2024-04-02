@@ -15,7 +15,7 @@ export class PartyUI extends DDD {
 
   static styles = css`
     :host {
-     display: block
+     display: block;
     }
     .add {
       font-family: "Press Start 2P", sans-serif;
@@ -25,10 +25,15 @@ export class PartyUI extends DDD {
     .delete {
       font-family: "Press Start 2P", sans-serif;
       background-color: var(--ddd-theme-default-discoveryCoral);
-      padding: 10px;
+      height: 20px; 
+      width: 20px; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
     }
     .save {
-      font-family: "Press Start 2P", sans-serif;
+      font-family: 'Press Start 2P', sans-serif;
       background-color: var(--ddd-theme-default-athertonViolet);
     }
     .change-character {
@@ -37,6 +42,8 @@ export class PartyUI extends DDD {
     .container {
       background-color: var(--ddd-theme-default-link80);
       margin: 30px;
+      overflow: scroll;
+      
     }
     .character-container {
       display: flex;
@@ -52,7 +59,7 @@ export class PartyUI extends DDD {
       align-items: center;
     }
     .character-name {
-      font-family: "Press Start 2P", sans-serif;
+      font-family: 'Press Start 2P', sans-serif;
       
     }
   `;
@@ -75,12 +82,12 @@ export class PartyUI extends DDD {
     this.requestUpdate();
   }
 
-  deleteItem() {
-    if (this.items.length > 0) {
-      this.items.pop();
-      this.requestUpdate();
+  deleteItem(index) {  
+    this.items.splice(index, 1);
+    this.requestUpdate();
+    console.log(items);
     }
-  }
+
   makeItRain() {
     import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
       (module) => {
@@ -100,6 +107,7 @@ export class PartyUI extends DDD {
 
   nameChange(e) {
     this.characterName = e.target.value; 
+
   }
 
   render() {
@@ -108,17 +116,16 @@ export class PartyUI extends DDD {
     <confetti-container id="confetti">
      <div class = "character-container">
      <rpg-character hat="random" seed="random"></rpg-character>
+     <div class="character-name">rjo5309</div>
         ${this.items.map((character) => html`
           <rpg-character class = "character" hat="${character.hat}" seed="${character.seed}" ></rpg-character>
           <div class="character-name">${character.name}</div>
-          <!-- <div>${this.characterName}</div> -->
-          <!-- <button class="delete" @click="${() => this.deleteItem(index)}">X</button> -->
+          <button class="delete" @click="${() => this.deleteItem()}">X</button>
         `)}
       </div>
      <div class = "button-container">
-      <input type="text" @input="${this.nameChange}" placeholder="Enter name">
+      <input type="text" @input="${this.nameChange}" placeholder="Enter username">
       <button class="add" @click="${this.addItem}">Add User</button>
-      <button class="delete" @click="${this.deleteItem}">Delete User</button>
       <button class="save" @click="${this.saveItem}">Save Members to Party!</button>
      </div>
      </confetti-container>
