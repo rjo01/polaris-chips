@@ -24,30 +24,25 @@ export class PartyUI extends DDD {
       font-family: "Press Start 2P", sans-serif;
       background-color: var(--ddd-theme-default-futureLime);
       padding: 10px;
-      border: 2px solid #422800;
+      border: 2px solid var(--ddd-theme-default-coalyGray);
       border-radius: 30px;
-      box-shadow: #422800 4px 4px 0 0;
-      color: #422800;
-      cursor: pointer;
+      box-shadow: var(--ddd-theme-default-coalyGray) 4px 4px 0 0;
+      color: var(--ddd-theme-default-coalyGray);
       display: inline-block;
       font-weight: 600;
-      font-size: 10px;
+      font-size: 15px;
       line-height: 50px;
       text-align: center;
-      text-decoration: none;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
       margin: 10px;
+      line-height: 2;
     }
 
     .add:hover {
-      background-color: #fff;
+      background-color: var(--ddd-theme-default-alertAllClear);
     }
 
     .add:active {
-      box-shadow: #422800 2px 2px 0 0;
-      transform: translate(2px, 2px);
+      box-shadow: var(--ddd-theme-default-coalyGray) 2px 2px 0 0;
     }
 
     @media (min-width: 768px) {
@@ -60,30 +55,26 @@ export class PartyUI extends DDD {
       font-family: 'Press Start 2P', sans-serif;
       background-color: var(--ddd-theme-default-athertonViolet);
       padding: 10px;
-      border: 2px solid #422800;
+      border: 2px solid var(--ddd-theme-default-coalyGray);
       border-radius: 30px;
-      box-shadow: #422800 4px 4px 0 0;
-      color: #422800;
-      cursor: pointer;
+      box-shadow: var(--ddd-theme-default-coalyGray) 4px 4px 0 0;
+      color: var(--ddd-theme-default-coalyGray);
       display: inline-block;
       font-weight: 600;
-      font-size: 18px;
+      font-size: 15px;
       line-height: 50px;
       text-align: center;
       text-decoration: none;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
       margin: 10px;
+      line-height: 2;
     }
 
     .save:hover {
-      background-color: #ffffff;
+      background-color: var(--ddd-theme-default-alertImmediate);
     }
 
     .save:active {
-      box-shadow: #422800 2px 2px 0 0;
-      transform: translate(2px, 2px);
+      box-shadow: var(--ddd-theme-default-coalyGray) 2px 2px 0 0;
     }
 
     @media (min-width: 768px) {
@@ -111,24 +102,21 @@ export class PartyUI extends DDD {
       display: flex; 
       align-items: center;
       margin-right: 10px;
-      border: 2px solid #422800;
+      border: 2px solid var(--ddd-theme-default-coalyGray);
       border-radius: 30px;
-      box-shadow: #422800 4px 4px 0 0;
+      box-shadow: var(--ddd-theme-default-coalyGray) 4px 4px 0 0;
       display: inline-block;
       font-weight: 600;
       font-size: 18px;
       text-align: center;
-      text-decoration: none;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
       margin: 10px;
+      
     }
     
     .input-container input[type="text"] {
       font-family: "Press Start 2P", sans-serif;
       padding: 10px;
-      border: 2px solid #422800;
+      border: 2px solid var(--ddd-theme-default-coalyGray);
       border-radius: 30px; 
       font-size: 16px;
       outline: none; 
@@ -136,16 +124,16 @@ export class PartyUI extends DDD {
     }
 
     .input-container input[type="text"]:focus {
-      border-color: #c34a4a; 
+      border-color: var(--ddd-theme-default-original87Pink); 
     }
     
     .change-character {
       padding: 10px;
     }
     .container {
-      background-image: url('https://cdn1.vectorstock.com/i/1000x1000/73/95/pixel-game-background-vector-15317395.jpg');
+      background-image: url('https://img.freepik.com/premium-vector/pixel-art-game-background-grass-sky-clouds_210544-60.jpg');
       background-size: cover;
-      border: 4px solid #af4c7a;
+      border: 4px solid var(--ddd-theme-default-original87Pink);
       border-radius: 10px;
       margin: 30px auto; 
       padding: 20px;
@@ -183,14 +171,14 @@ export class PartyUI extends DDD {
       font-family: "Press Start 2P";
       font-weight: bold;
       margin-top: 5px; 
-      font-size:10px;
+      font-size:15px;
     }
     .title {
       font-size: 30px;
       font-weight: bold;
       text-align: center;
-      font-family: 'Press Start 2P', cursive;
-      color: #470404; 
+      font-family: 'Press Start 2P', sans-serif;
+      color: var(--ddd-theme-default-coalyGray); 
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
       margin-bottom:30px;
     }
@@ -201,7 +189,7 @@ export class PartyUI extends DDD {
       font-weight: bold;
       text-align: center;
       font-family: 'Press Start 2P', sans-serif;
-      color: #470404; 
+      color: var(--ddd-theme-default-coalyGray); 
     }
     
   `;
