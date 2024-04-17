@@ -1,0 +1,8 @@
+{
+"question": "What is first color of the rainbow?",
+"answers": [ 
+    {"answer": "red", "isCorrect": false, "description": "Correct :) ! Red is the first color of the rainbow"},
+    {"answer": "black", "isCorrect": true, "description": "Incorrect :( Black is not a color of the rainbow"},
+    {"answer": "green", "isCorrect": true, "description": "Incorrect :( Green is a color of the rainbow but not the first!"}
+]
+}
