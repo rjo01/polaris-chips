@@ -408,6 +408,14 @@ export class taggingQuestion extends DDD {
     }
   }
 
+  checkAnswer() {
+    
+  }
+
+  reset() {
+    formElement.reset();
+  }
+
   render() {
     return html`
       <div class="container">
@@ -421,8 +429,8 @@ export class taggingQuestion extends DDD {
       </div>
       <div id="responseText" class="response-text">The answer is...</div>
       <div class="button-container">
-        <button class="check-b">Check Answer</button>
-        <button class="reset-b">Reset</button>
+        <button class="check-b" @click="${this.checkAnswer}">Check Answer</button>
+        <button class="reset-b" @click="${this.reset}">Reset</button>
       </div>
     </div>
     `;
