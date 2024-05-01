@@ -1,0 +1,68 @@
+{
+    "default": {
+     "default btn - false": {
+            "correct": false,
+            "feedback": "default feedback option false"
+    },
+    "default btn - true": {
+      "correct": true,
+      "feedback": "default feedback option true"
+    }
+  },
+    "hax-logo": {
+      "Good form": {
+        "correct": true,
+        "feedback": "Correct! The shape of the vase clearly demonstrates craftsmanship."
+      },
+      "Poor taste": {
+        "correct": false,
+        "feedback": "Incorrect. Taste is in the eye of the designer as well as the viewer."
+      },
+      "Contrasting themes": {
+        "correct": false,
+        "feedback": "Incorrect. There is uniformity in the shape, but there is no depth to this media to imply that it is contrasting with other figures."
+      },
+      "AI": {
+        "correct": true,
+        "feedback": "Correct! While a modification of prior work, this is still AI generative work."
+      },
+      "Shading": {
+        "correct": false,
+        "feedback": "Incorrect. While there is a light source and a shadow cast, shading is a term used for pencil based sketching."
+      },
+      "Original work": {
+        "correct": true,
+        "feedback": "Correct! Artwork created from gerenateive AI can not be original since it is trained on other artists work."
+      },
+      "Accessible": {
+        "correct": false,
+        "feedback": "Incorrect. The color scheme while high contrast in some areas, loses form in others and has written text unrelated to the character."
+      }
+    },
+    "dicaprio": {
+      "Titanic": {
+        "correct": true,
+        "feedback": "Correct! He has starred in this 1997 Drama"
+      },
+      "Inception": {
+        "correct": true,
+        "feedback": "Correct! He has starred in this 2010 Thriller"
+      },
+      "Gatsby": {
+        "correct": true,
+        "feedback": "Correct! He has starred in the remake of the classic novel"
+      },
+      "The Batman": {
+        "correct": false,
+        "feedback": "Incorrect. He has never played batman"
+      },
+      "The Office": {
+        "correct": false,
+        "feedback": "Incorrect. This is not a movie and doesnt have DiCaprio in it"
+      },
+      "Harry Potter and the Sorcerers Stone": {
+        "correct": false,
+        "feedback": "Incorrect. He has never starred in this movive"
+      }
+    }
+  }

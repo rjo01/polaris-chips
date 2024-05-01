@@ -1,41 +1,36 @@
 import { html, css } from 'lit';
-import { DDD } from '@lrnwebcomponents/d-d-d';
+import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
 
 export class TaggingQuestion extends DDD {
   static get tag() {
-    return 'tagging-question';
+    return 'tagging-questions';
   }
-
-  static get properties() {
-    return {
-      question: { type: String },
-      answers: { type: Array },
-      selectedTags: { type: Array },
-      submitted: { type: Boolean },
-      allTags: { type: Array },
-      tagOptions: { type: Array },
-      tagCorrect: { type: Array },
-      tagFeedback: { type: Array }
-    };
-  }
-
   constructor() {
     super();
     this.question = "";
     this.description = "";
     this.imageURL = "";
-    // this.answers = [];
-    this.selectedTags = [];
-    this.submitted = false;
-    this.allTags = [];
-    this.tagOptions = [];
-    this.tagCorrect = [];
-    this.tagFeedback = [];
-    this.fetchData();
+    this.currentTag;
+    this.checked = false;
+    this.answerSet = "default";
+    this.showDescription = false;
+    this.source = new URL('../test/tagging.json', import.meta.url).href;
   }
 
-  static styles = css`
-    .container {
+  static get properties() {
+    return {
+      question: { type: String },
+      imageURL: { type: String },
+      description: { type: String},
+      answerSet: { type: String },
+      showDescription: { type: Boolean }
+    };
+  }
+
+  static get styles() {
+    return css`
+      
+      .container {
       background-image: url('https://www.dbackdrop.com/cdn/shop/products/D636.jpg?v=1602656440');
       background-size: cover;
       border: 15px solid tan;
@@ -49,280 +44,446 @@ export class TaggingQuestion extends DDD {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      
+    }
+    .image {
+        max-width: 35%;
+        border: solid 4px var(--ddd-theme-default-athertonViolet);
+        border-radius: 25px;
+        height: auto;
+        
+        }
+
+    .image-container { 
+        justify-content: center;
+        display: flex;
+        
+      }
+
+     
+    #question {
+        color: var(--ddd-theme-default-skyLight);
+        font-family: 'Callie Chalk Font', sans-serif;
+        text-decoration: underline;
+        text-align: center;
+        padding: var(--ddd-spacing-1);    
+        margin-bottom: var(--ddd-spacing-5);
+        
+      }
+
+      #dropText {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--ddd-theme-default-skyLight);
+        font-family: 'Callie Chalk Font', sans-serif;
+        font-size: 15px;
+        
+      }
+
+
+      #tagging-question {
+        background: var(--ddd-theme-default-shrineLight);
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        min-height: var(--ddd-spacing-4);
+        min-width: var(--ddd-spacing-8);
+        margin: var(--ddd-spacing-4) 0;
+        
+      }
+
+      #tagging-question img {
+        max-width: 100%;
+        max-height: 500px;
+        padding-top: 5px;
+        object-fit: contain;
+        
+      }
+      
+      #description {
+        width: 75%;
+        margin-left: 10%;
+        padding-top: 5px;
+        display: none;
+        flex-direction: column;
+      }
+
+      
+      #dropArea {
+        box-sizing: border-box;
+        width: 75%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 24px ;
+        border: solid 4px var(--ddd-theme-default-athertonViolet);
+        border-radius: 25px;
+       
+        display: inline-block;
+        
+      }
+
+      
+
+     
+      .choice {
+        display: inline-block;
+        color: var(--ddd-theme-default-creekTeal);
+        background: var(--ddd-theme-default-white);
+        margin:2px;
+        box-sizing: border-box;
+        padding: 10px;
+        font-family: 'Callie Chalk Font', sans-serif;
+        font-size: 15px;
+        border: solid 2px var(var(--ddd-theme-default-creekTeal));
+        border-radius: 25px;
+
+        
+      }
+      .choice:hover {
+        color: var(--ddd-theme-default-info);
+        background: var(--ddd-theme-default-alertAllClear);
+        
+      }
+
+      .correct {
+        background: transparent;
+        border: solid 1px var(--ddd-theme-default-futureLime);
+        color: var(--ddd-theme-default-futureLime);
+       
+      }
+     
+      
+      #answerBank {
+        display: inline-block;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 10px;
+        width: 100%;
+        
+        
+      }
+
+      
+      confetti-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+     
+
+      .correct-color {
+        font-size: 15px;
+        font-family: 'Callie Chalk Font', sans-serif;
+        color: var(--ddd-theme-default-futureLime);
+        
+      }
+
+      .incorrect {
+        background: transparent;
+        border: solid 1px var(--ddd-theme-default-discoveryCoral);
+        color: var(--ddd-theme-default-discoveryCoral);
+    
+      }
+
+      .incorrect-color {
+        font-size: 15px;
+        font-family: 'Callie Chalk Font', sans-serif;
+        color: var(--ddd-theme-default-discoveryCoral);
+    
+      }
+      
+     
+    .check-b {
+        color: var(--ddd-theme-default-white);
+        background-color: var(--ddd-theme-default-opportunityGreen);
+        padding: 10px ;
+        margin: 5px;
+        border: 2px solid var(--ddd-theme-default-white);
+        border-radius: 25px;
+        font-family: 'Callie Chalk Font', sans-serif;
+        font-size: 15px;
+        
+       
     }
 
-    .title {
-      color: white;
-      font-family: 'Callie Chalk Font', sans-serif;
-      text-decoration: underline;
+    .check-b:hover {
+        background-color: var(--ddd-theme-default-forestGreen);
     }
 
-    .answer-bank {
-      color: lightcoral;
-      font-family: 'Callie Chalk Font', sans-serif;
+    .reset-b {
+        color: var(--ddd-theme-default-white);
+        background-color: var(--ddd-theme-default-discoveryCoral);
+        padding: 10px ;
+        margin: 5px;
+        border: 2px solid var(--ddd-theme-default-white);
+        border-radius: 25px;
+        font-family: 'Callie Chalk Font', sans-serif;
+        font-size: 15px;
+            
+    }
+    .reset-b:hover {
+        background-color: var(--ddd-theme-default-alertImmediate);
+        
     }
 
-    .choice {
-      display: inline-flex;
-      color: white;
-      font-family: 'Callie Chalk Font', sans-serif;
-      border-radius: 10px;
-      border: 4px solid white;                                            
-    }
-
-    .choice-container {
-      border-radius: 10px;
-      border: 4px dashed yellow;
-      margin-bottom:10px;
-    }
-
-    .response-text {
-      font-family: 'Callie Chalk Font', sans-serif;
-      color: lightblue;
-    }
-
-    .drop-container {
-      border: 2px dashed black; /* Style for the drop container */
-      padding: 10px;
-      margin-top: 20px;
-      position: relative;
-    }
-   
-  `;
+    `;
+  }
 
   connectedCallback() {
     super.connectedCallback();
-    this.loadTagsData();
-  }
-  dragStart(e) {
-    this.draggedItem = e.target;
-  }
+    const answerSet = this.answerSet;
 
-  dragEnd() {
-    this.draggedItem = null;
-  }
-
-  dragOver(e) {
-    e.preventDefault();
-  }
-
-  dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add('hovered');
-  }
-
-  dragLeave(e) {
-    e.target.classList.remove('hovered');
-  }
-
-  dragDrop(e) {
-    e.preventDefault();
-    e.target.classList.remove('hovered');
-    if (this.draggedItem) {
-      e.target.appendChild(this.draggedItem.cloneNode(true));
-      
-    }
-  }
-  loadTagsData() {
-    fetch("./questions.json")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch tags data");
+    fetch(this.source)
+      .then((response) => response.json())
+      .then((json) => {
+        const answerBank = this.shadowRoot.getElementById('answerBank');
+        const possibleAnswers = json[answerSet];
+        const options = [];
+        for (const key in possibleAnswers) {
+          const option = possibleAnswers[key];
+          const control = document.createElement('control');
+          control.classList.add('choice');
+          control.draggable = true;
+          control.textContent = key;
+          control.dataset.correct = option.correct;
+          control.dataset.feedback = option.feedback;
+          control.addEventListener('dragstart', this.dragStart.bind(this));
+          options.push(control);
         }
-        return response.json();
-      })
-      .then(tagsData => {
-        // const tagSet = tagsData[this.answers.key];
-        const tagSet = tagsData;
-    if (tagSet) {
-        const originalTagOptions = tagSet.answers || [];
-          this.allTags = originalTagOptions.slice(); 
-          this.tagOptions = originalTagOptions.slice();
-          this.tagCorrect = [];
-          this.tagFeedback = [];
-  
-          tagSet.tagAnswers.forEach((tagAnswer, index) => {
-            const tagKey = Object.keys(tagAnswer)[0];
-            const { correct, feedback } = tagAnswer[tagKey];
-            this.tagCorrect.push(correct);
-            this.tagFeedback.push(feedback);
-          });
-  
-          this.tagOptions = this.shuffleArray(this.tagOptions);
-        } else {
-          throw new Error(`tagSet '${this.answerSet}' not found`);
+     for (let i = options.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [options[i], options[j]] = [options[j], options[i]];
         }
-      })
-    //   .catch(error => {
-    //     console.error("Error loading tags data: ", error);
-    //   }
-    // );
-  }
-  
-  shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-  
-  getFeedbackForTag(tag) {
-    const index = this.allTags.indexOf(tag);
-    if (index !== -1) {
-      const feedback = this.tagFeedback[index];
-      return html`${feedback}`;
-    }
-    return html``;
-  }
-  
-  isTagCorrect(tag) {
-    const index = this.allTags.indexOf(tag);
-    if (index !== -1) {
-      return this.tagCorrect[index];
-    }
-    return false;
-  }
-  
-  handleDrag(e) {
-    const tagOption = e.target.textContent.trim();
-    e.dataTransfer.setData("text/plain", tagOption);
-  }
-  
-  allowDrop(e) {
-    e.preventDefault();
-  }
-  
-  handleDrop(e) {
-    e.preventDefault();
-    const tagOption = e.dataTransfer.getData("text/plain");
-    const isInOptionContainer = this.tagOptions.includes(tagOption);
-    const isInUserChoiceContainer = this.selectedTags.includes(tagOption);
-    const sourceContainer = e.target.classList.contains("option-container") ? "option" : "user-choice";
-    const destinationContainer = e.target.classList.contains("user-choice-container") ? "option" : "user-choice";
-  
-    if (sourceContainer === destinationContainer) {
-        return;
-    }
-  
-    if (isInOptionContainer && !isInUserChoiceContainer) {
-        this.handleTagMove(tagOption, "option");
-    } else if (!isInOptionContainer && isInUserChoiceContainer) {
-        this.handleTagMove(tagOption, "user-choice");
-    }
-  }
-  
-  handleTagMove(tagOption, source) {
-    if (source === "user-choice") {
-      this.removeTag(tagOption);
-    } else {
-      this.addTag(tagOption);
-    }
-  }
-  
-  handleKeyDown(event, tagOption) {
-    if (event.key === 'Enter') {
-      this.handleTagClick(tagOption);
-    }
-  }
-  
-  handleTagClick(tagOption) {
-    if (this.selectedTags.includes(tagOption)) {
-      this.handleTagMove(tagOption, "user-choice");
-    } else if (this.tagOptions.includes(tagOption)) {
-      this.handleTagMove(tagOption, "option");
-    }
-  }
-  
-  addTag(tagOption) {
-    if (!this.submitted && !this.selectedTags.includes(tagOption)) {
-      this.selectedTags = [...this.selectedTags, tagOption];
-      this.tagOptions = this.tagOptions.filter(selectedTags => selectedTags !== tagOption);
-    }
-  }
-  
-  removeTag(tagOption) {
-    if (!this.submitted) {
-      this.selectedTags = this.selectedTags.filter(selectedTags => selectedTags !== tagOption);
-      this.tagOptions.push(tagOption);
-    }
-  }
-  
-  submitAnswers() {
-    this.submitted = true;
-    this.checkAnswers();
-  }
-  
-  checkAnswers() {
-    this.selectedTags.forEach(tag => {
-      const index = this.allTags.indexOf(tag);
-      if (index !== -1) {
-        const correct = this.tagCorrect[index];
-        const feedback = this.tagFeedback[index];
-        console.log(`Tag: ${tag}, Correct: ${correct}, Feedback: ${feedback}`);
-      }
+        options.forEach(control => {
+            answerBank.appendChild(control);
+        });
     });
+    const avaliableImage = this.querySelector('img');
+    if(avaliableImage) {
+      this.imageURL = avaliableImage.src;
+    }
+    const avaliable = this.querySelector('p');
+    if(avaliable) {
+      this.question = avaliable.innerText;
+    }
+
+  }
+
+  dragStart(event) {
+    event.dataTransfer.setData('text/plain', event.target.textContent);
+    this.currentTag = event.target;
+  }
+
+  
+  dragOver(event) {
+    event.preventDefault();
+    
+    this.shadowRoot.getElementById('dropArea').classList.add('drag-over');
+  }
+  dragOverReverse(event) {
+    event.preventDefault();
+  }
+
+
+  drop(event) {
+    event.preventDefault();
+
+    this.shadowRoot.getElementById('dropArea').classList.remove('drag-over');
+
+    const dropArea = this.shadowRoot.getElementById('dropArea');
+    const current = this.currentTag;
+
+    if (current && this.checked === false) {
+        current.remove();
+        dropArea.appendChild(current);
+
+        this.shadowRoot.querySelector('#dropText').style.display = 'none';
+        const controlBtns = this.shadowRoot.querySelectorAll('.controlBtn');
+        controlBtns.forEach(btn => {
+            btn.style.visibility = 'visible';
+        });
+    }
+  }
+
+  dropReverse(event) {
+    event.preventDefault();
+
+    const dropArea = this.shadowRoot.getElementById('dropArea');
+    const answerBank = this.shadowRoot.getElementById('answerBank');
+    const button = this.currentTag;
+
+    if (button && this.checked === false) {
+        button.remove();
+        answerBank.appendChild(button);
+        
+        
+        if (dropArea.querySelectorAll('.choice').length === 0) {
+            this.shadowRoot.querySelector('#dropText').style.display = 'flex';
+            const controlBtns = this.shadowRoot.querySelectorAll('.controlBtn');
+            controlBtns.forEach(btn => {
+                btn.style.visibility = 'hidden';
+            });
+        }
+    }
+  }
+
+  dragStartReverse(event) {
+    event.dataTransfer.setData('text/plain', event.target.textContent);
+    this.currentTag = event.target;
   }
   
+ 
+
   reset() {
-    this.submitted = false;
-    this.tagOptions = [...this.tagOptions, ...this.selectedTags];
-    this.selectedTags = [];
-    this.shuffleArray(this.tagOptions); 
+    this.checked = false;
+    this.shadowRoot.querySelector('.check-b').classList.remove('disabled');
+    this.shadowRoot.querySelector('#description').style.display = 'none';
+    this.shadowRoot.querySelector('#description').innerHTML = ``;
+    const dropArea = this.shadowRoot.getElementById('dropArea');
+    const answerBank = this.shadowRoot.getElementById('answerBank');
+    const tagsToMove = Array.from(dropArea.children).filter(seb => seb.id !== 'dropText');
+    tagsToMove.forEach(yes => {
+        answerBank.appendChild(yes);
+        yes.classList.remove("correct");
+        yes.classList.remove("incorrect");
+        yes.title = "";
+        this.shadowRoot.querySelector('#description').innerHTML = ``;
+    });
+
+    const dropAreaChoices = this.shadowRoot.querySelectorAll('dropArea .choice');
+    for (const tag of dropAreaChoices) {
+        tag.classList.remove("noPointerEvents");
+        tag.removeAttribute('tabindex');
+    }
+    const answerBankChoices = this.shadowRoot.querySelectorAll('#answerBank .choice');
+      for (const tag of answerBankChoices) {
+          tag.classList.remove("noPointerEvents");
+          tag.removeAttribute('tabindex');
+    }
+
+
+    const buttons = Array.from(answerBank.children);
+    for (let i = buttons.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      answerBank.insertBefore(buttons[j], buttons[i]);
+    }
+
+    this.shadowRoot.querySelector('#dropText').style.display = 'flex';
+    const controlBtns = this.shadowRoot.querySelectorAll('.controlBtn');
+    controlBtns.forEach(btn => {
+        if (btn.id !== 'reset-b') { 
+            btn.style.visibility = 'hidden';
+        }
+    });
+}
+
+
+
+  checkAnswers() {
+    if(this.checked == false){
+      this.checked = true;
+  let allDroppedCorrect = true;
+      let allBankedCorrect = true;
+    this.shadowRoot.querySelector('#description').style.display = 'flex';
+      this.shadowRoot.querySelector('#description').innerHTML = ``;
+      const dropArea = this.shadowRoot.querySelectorAll('#dropArea .choice');
+      for (const tag of dropArea) {
+          const isCorrect = tag.dataset.correct === 'true';
+          if(isCorrect){
+            tag.classList.add("correct");
+            this.shadowRoot.querySelector('#description').innerHTML += `<li class="correct-color">${tag.dataset.feedback}</li>`;
+          }
+          else {
+            tag.classList.add("incorrect");
+            allDroppedCorrect = false;
+            tag.title = tag.dataset.feedback;
+
+            this.shadowRoot.querySelector('#description').innerHTML += `<li class="incorrect-color">${tag.dataset.feedback}</li>`;
+          }
+          tag.classList.add("noPointerEvents");
+          tag.setAttribute('tabindex', -1);
+      }
+      const answerBank = this.shadowRoot.querySelectorAll('#answerBank .choice');
+      for (const tag of answerBank) {
+          const isCorrect = tag.dataset.correct === 'true';
+          if(isCorrect){
+            allBankedCorrect = false;
+            tag.title = tag.dataset.feedback;
+
+          }
+          tag.classList.add("noPointerEvents");
+          tag.setAttribute('tabindex', -1);
+      }
+  
+      if(allDroppedCorrect && allBankedCorrect) { 
+        this.makeItRain();
+
+        this.shadowRoot.querySelector('#description').innerHTML = ``;
+        const answerBank = this.shadowRoot.querySelectorAll('#dropArea .choice');
+        for (const tag of answerBank) {
+            allBankedCorrect = false;
+            tag.title = tag.dataset.feedback;
+
+            this.shadowRoot.querySelector('#description').innerHTML += `<li class="green">${tag.dataset.feedback}</li>`;
+          }
+      }
+    }
   }
   
 
-  async fetchData() {
-    try {
-      const response = await fetch('./questions.json');
-      const data = await response.json();
-      this.question = data.question;
-      this.answers = data.answers.map(answer => answer.answer);
-      this.requestUpdate();
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+
+  toggleDescription() {
+    this.showDescription = !this.showDescription;
+  }
+  makeItRain() {
+    import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
+      (module) => {
+        setTimeout(() => {
+          this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+        }, 0);
+      }
+    );
   }
 
   render() {
     return html`
-      <div class="container">
-      <div class="image-div">
+      <confetti-container id="confetti">
+        <div class = "container">
+        <div class="image-container">
           <img class="image" src=${this.imageURL}>
         </div>
-        <div>
-          <button class="description-btn" @click=${this.toggleDescription}>Click to view Description</button>
-        </div>
-        ${this.showDescription ? html`
-          <div class="description-title">${this.description}</div>
-        ` : ''}
+        
         <div id="question">${this.question}</div>
-        <div id="droppedTags" @click=${this.droppedClicked} @dragover=${this.handleDragOver} @drop=${this.handleDrop}>
-            <div id="dropTagHint">Drop your answer choices here</div>
+        <div id ="dropArea" @dragover=${this.dragOver} @drop=${this.drop}>
+            <div id="dropText">Drop answers here</div>
         </div>
-        <div id="feedbackSection">
-          ${Array.from(this.shadowRoot.querySelectorAll('#droppedTags .chip')).map(tag => {
-            const isCorrect = tag.dataset.correct === 'true';
+        <div id="description">
+          ${Array.from(this.shadowRoot.querySelectorAll('#dropArea .choice')).map(tag => {const isCorrect = tag.dataset.correct === 'true';
             return html`
-              <li>
-                <span class="chip ${isCorrect ? 'correct' : 'incorrect'}">${tag.textContent}</span>
-                ${isCorrect ? html`<span class="green">${tag.dataset.feedback}</span>` : html`<span class="red">Incorrect: ${tag.dataset.feedback}</span>`}
-              </li>
-            `;
+            <li>
+            <span class="choice ${isCorrect ? 'correct' : 'incorrect'}">${tag.textContent}</span>
+            ${isCorrect ? html`<span class="correct-color">${tag.dataset.feedback}</span>` : html`<span class="incorrect-color">Incorrect: ${tag.dataset.feedback}</span>`}</li>
+        `;
           })}
         </div>
-        <div id="bankedTags" @click=${this.bankedClicked} @dragover=${this.handleDragOverReverse} @drop=${this.handleDropReverse}>
-        </div>
-        <div id="controls">
-            <button id="resetBtn" class="controlBtn" @click=${this.resetTags}>
-                Reset / Try Again
+        <div id="answerBank" @dragover=${this.dragOverReverse} @drop=${this.dropReverse}></div>
+        <div class="button-container">
+            <button class="reset-b" @click=${this.reset}>
+                Reset
             </button>
-            <button id="checkBtn" class="controlBtn" @click=${this.checkTags}>
-                Check
+            <button class="check-b" @click=${this.checkAnswers}>
+                Check Answers
             </button>
         </div>
+        </div>
+      </confetti-container>
     `;
   }
+  
 }
 
-customElements.define(TaggingQuestion.tag, TaggingQuestion);
+globalThis.customElements.define(TaggingQuestion.tag, TaggingQuestion);
